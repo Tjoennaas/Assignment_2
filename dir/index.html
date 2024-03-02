@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment_2</title>
+    <link rel="stylesheet" href="../src/styles/styles.css">
+</head>
+<body>
+
+<header class ="title">
+    <h1>Drugstore</h1>
+</header>
+
+<main>
+   <section class = "pharmaForm">
+    
+    <form  class = "form-pharmaForm"> 
+
+     <label for="product-name">Product name:</label>
+     <input type="text" name="product-name" class="product-name"/>
+     <label for= "product-name" class="product-name-error errors"></label> 
+
+     <label for="product-id">Product ID:</label>
+     <input type="text" name="product-id" class="product-id"/>
+     <label for= "product-id"class=" product-id-error errors"></label> 
+
+     <label for="manufacturer">Manufacturer:</label>
+     <input type="text" name="manufacturer" class="manufacturer"/>
+     <label for= "manufacturer"class="manufacturer-error errors"></label> 
+     
+     
+     <label for="date-input">Task date:</label>
+     <input
+       type="date"
+       name="date-input"
+       pattern="\d{2}/\d{2}/\d{4}"h
+       class="date-input"
+     />
+     <label for="date-input" class="date-error errors"></label> 
+
+     <label for = "quantity">Quantity</label>
+     <input type = "text" name="quantity" class="quantity"/>
+     <label for = "quantity"class="quantity-error errors"></label> 
+
+
+     <button class = "submit-button"> Button </button>
+   
+    </form>
+
+   </section> 
+
+
+<!-------------------------------------------------------------------->
+
+
+<section class = "display-drugs">
+     
+    
+<div class="search-section">
+    <input type="text" class="search-input" placeholder="Search books..."/>
+    <button class="search-button">Search</button>
+    <button class="showAll-button">Show All Books</button>
+</div>
+
+    <header class = "drugs-header">
+    <span>Product name:</span>
+    <span>Product ID:</span>
+    <span>Manufacturer:</span>
+    <span> Expiration date</span>
+    <span>Quantity</span>
+    </header>
+
+     <ul class = "drugs-list">  
+        
+     </ul>
+
+     <div class="edit-drug-modal">
+    <form class="edit-drug-form">
+      
+            <input type="text" class="edit-product-name" placeholder="product-name">
+            <input type="text" class="edit-product-id" placeholder="id">
+            <input type="text" class="edit-manufacturer" placeholder="manufacturer">
+            <input type="text" class="edit-date-input" placeholder="date-input">
+            <input type="text" class="edit-quantity" placeholder="quantity">
+           
+            <label for="task-description-input">Task description:</label>
+            <textarea
+            name="task-description-input"
+            class="task-description-input"
+            cols="30"
+            rows="5"
+            placeholder="Enter task description (Max 100 characters)"
+          ></textarea>
+             
+          <ul class=" text-area">  
+
+          </ul>
+
+            <button type="submit-shange">Save Changes</button>
+            <button type="button-close">x</button>
+        </form>
+    </div>
+  
+
+</section>
+    
+</main>
+
+
+
+    
+    <script src="../src/js/app.js"></script>
+</body>
+</html>
