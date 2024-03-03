@@ -1,110 +1,123 @@
 
-
 const drugs = JSON.parse(localStorage.getItem("drugs")) || [];
 const saveData = (data) => { 
-localStorage.setItems("drugs", JSON.stringify(data));
+  localStorage.setItem("drugs", JSON.stringify(data));
 };
 
 const pharmaForm = document.querySelector(".form-pharmaForm");
 const productName = document.querySelector(".product-name");
-const productId = document.querySelector(".product-id");
 const manufacturer = document.querySelector(".manufacturer");
 const dateInput = document.querySelector(".date-input");
-const quantity  = document.querySelector(".quantity");
+const quantity = document.querySelector(".quantity");
 const submitButton = document.querySelector(".submit-button");
 const drugsHeader = document.querySelector(".drugs-header");
 const drugsUl = document.querySelector(".drugs-list");
+const showAllButton = document.querySelector(".showAll-button");
+const searchButton = document.querySelector(".search-button");
+const searchInput = document.querySelector(".search-input");
 
-
-class drug {
-constructor(pharmaForm, productName, productId, manufacturer, dateInput, quantity) {
-    this.pharmaForm = pharmaForm;
+class Drug {
+  constructor(productName, manufacturer, dateInput, quantity) {
     this.productName = productName;
-    this.productId = productId;
     this.manufacturer = manufacturer;
-    this.dataInput = dateInput;
-    this.quantity = quantity;
-
+    this.dateInput = dateInput;
+    this.quantity = parseInt(quantity, 10); 
+  
+    this.productId = productName + "-" + manufacturer; 
+    this.ID = Date.now().toString();
   }
 
-  static addDrug (drug){
-       drugs.push(drug);
-       saveData(drugs);
-       UI.renderDrugs(drugs);
+  static addDrug(newDrug) {
+    const existingDrugIndex = drugs.findIndex(drug => 
+      drug.productName === newDrug.productName && 
+      drug.manufacturer === newDrug.manufacturer);
 
+    if (existingDrugIndex !== -1) {
+     
+      drugs[existingDrugIndex].quantity += newDrug.quantity;
+    } else {
+      drugs.push(newDrug);
+    }
+
+    saveData(drugs);
+    UI.renderDrugs(drugs);
   }
 
-  static deletDrug (id){
-     const index = drugs.findIndex(drug => drug.Id === id)
-        if (index !== -1) {
-           drugs.splice(index, 1);
-           saveData (drugs);
-           UI.renderDrugs(drugs);
-         }      
-     }
-         
-   static editDrug(id) {
-      const drug = drugs.find(drug => drug.ID === id);
-      if(drug){
-        document.querySelector("editproductName").value = drug.ProductName;
-        document.querySelector("editproductId").value = drug.ProductId;
-        document.querySelector("editmanufacturer").value = drug.manufacturer; 
-        document.querySelector("editDataInput").value = drug.dataInput;
-        document.querySelector("editQantety").value = drug.quantity;
-       
+  static deleteDrug(id) {
+    const index = drugs.findIndex(drug => drug.ID === id);
+    if (index !== -1) {
+      drugs.splice(index, 1);
+      saveData(drugs);
+      UI.renderDrugs(drugs);
+    }      
+  }
+  
 
-      }
-   }   
 }
-
-//----------------------------------------------------------------------------
-
 
 class UI {
-    static renderDrugs (drugsToDisplay){
-        drugsUl.innerText =" ";
-        
+  static renderDrugs(drugsToDisplay) {
+    drugsUl.innerText = "";
+    drugsToDisplay.forEach((drug) => {
+      const li = document.createElement("li");
+      const renderProductName = document.createElement("span");
+      const renderManufacturer = document.createElement("span");
+      const renderProductId = document.createElement("span");
+      const renderQuantity = document.createElement("span");
+      const renderDate = document.createElement("span");
+      const renderID = document.createElement("span");
+      const deleteButton = document.createElement("button");
+      const editButton = document.createElement("button");
+      
+      renderProductName.textContent = `Name: ${drug.productName}`;
+      renderManufacturer.textContent = `Manufacturer: ${drug.manufacturer}`;
+      renderProductId.textContent = `Product ID: ${drug.productId}`;
+      renderDate.textContent = `Date: ${drug.dateInput}`;
+      renderQuantity.textContent = `Quantity: ${drug.quantity}`;
+      renderID.textContent = `ID: ${drug.ID}`;
+      deleteButton.textContent = "Delete";
+      editButton.textContent = "Edit";
+      
+      li.appendChild(renderProductName);
+      li.appendChild(renderManufacturer);
+      li.appendChild(renderProductId);
+      li.appendChild(renderQuantity);
+      li.appendChild(renderDate);
+      li.appendChild(renderID);
+      li.appendChild(deleteButton);
+      li.appendChild(editButton);
+      drugsUl.appendChild(li);
 
-        drugsToDisplay.forEach ((drug) => {
-            const li  = document.createElement("li")
-            const renderProductName = document.createElement("span");
-            const renderManufacturer = document.createElement("span");
-            const renderProductId = document.createElement ("span");
-            const renderQantety = document.createElement("span");
-            const renderDate = document.createElement ("span");
-            const deleteButton = document.createElement ("button");
-            const editButton = document.createElement("button");
-            
-            
-            
-            li.appendChild(renderProductName);
-            li.appendChild(renderManufacturer);
-            li.appendChild(renderProductId);
-            li.appendChild(renderQantety);
-            li.appendChild(renderDate);
-            li.appendChild(deleteButton);
-            li.appendChild(editButton);
-            drugsUl.appendChild(li);
-
-
-
-
-            renderProductName.textContent = drug.productName;
-            renderManufacturer = drug.manufacturer;
-            renderProductId = drug.productId;
-            renderDate = drug.dataInput;
-            renderQantety = drug.quantity;
-            deleteButton =  "x" ;
-            editButton = "info";
-            
-
-            deleteButton.addEventListener("click", () => drug.deleteButton(drug.Id));
-            editButton.addEventListener("click", () => drug.editButton(drug.Id));
-        });
-    }
+      deleteButton.addEventListener("click", () => Drug.deleteDrug(drug.ID));
+     
+    });
+  }
 }
 
+pharmaForm.addEventListener("submit", (e) => {   
+  e.preventDefault();
+  const newDrug = new Drug(
+    productName.value,
+    manufacturer.value,
+    dateInput.value, 
+    quantity.value
+  );
 
-          
-//----------------------------------------------------------------------------
+  Drug.addDrug(newDrug);
+  pharmaForm.reset();
+});  
 
+searchButton.addEventListener("click", () => {
+  const search = searchInput.value.toLowerCase();
+  const filteredDrugs = drugs.filter(drug => 
+    drug.productName.toLowerCase().includes(search) ||
+    drug.manufacturer.toLowerCase().includes(search)
+  );
+  UI.renderDrugs(filteredDrugs);     
+});
+
+showAllButton.addEventListener("click", () => {
+  UI.renderDrugs(drugs);
+});
+
+UI.renderDrugs(drugs);
