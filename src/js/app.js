@@ -1,4 +1,8 @@
 
+
+import { validateDrugForm } from "./handelingError";
+
+
 const drugs = JSON.parse(localStorage.getItem("drugs")) || [];
 const saveData = (data) => { 
   localStorage.setItem("drugs", JSON.stringify(data));
@@ -16,26 +20,37 @@ const showAllButton = document.querySelector(".showAll-button");
 const searchButton = document.querySelector(".search-button");
 const searchInput = document.querySelector(".search-input");
 
+
+const nameError = document.querySelector(".name-error");
+const manufacturerError = document.querySelector(".manufacturer-error");
+const dateError = document.querySelector(".date-error");
+const quantityError = document.querySelector(".quantity-error");
+
+
+
+
 class Drug {
   constructor(productName, manufacturer, dateInput, quantity) {
     this.productName = productName;
     this.manufacturer = manufacturer;
     this.dateInput = dateInput;
     this.quantity = parseInt(quantity, 10); 
-  
-    this.productId = productName + "-" + manufacturer; 
-    this.ID = Date.now().toString();
+    this.productId = productName + manufacturer; 
+   
   }
 
   static addDrug(newDrug) {
-    const existingDrugIndex = drugs.findIndex(drug => 
+      const existingDrugIndex = drugs.findIndex(drug => 
       drug.productName === newDrug.productName && 
       drug.manufacturer === newDrug.manufacturer);
 
     if (existingDrugIndex !== -1) {
      
       drugs[existingDrugIndex].quantity += newDrug.quantity;
-    } else {
+    } 
+   
+    else {
+    
       drugs.push(newDrug);
     }
 
@@ -43,17 +58,27 @@ class Drug {
     UI.renderDrugs(drugs);
   }
 
-  static deleteDrug(id) {
-    const index = drugs.findIndex(drug => drug.ID === id);
+
+
+
+    static deleteDrug(id) {
+       const index = drugs.findIndex(drug => drug.ID === id);
+
     if (index !== -1) {
-      drugs.splice(index, 1);
-      saveData(drugs);
-      UI.renderDrugs(drugs);
+
+       drugs.splice(index, 1);
+       saveData(drugs);
+       UI.renderDrugs(drugs);
     }      
   }
   
 
 }
+
+
+//-------------------------------------------------------------
+
+
 
 class UI {
   static renderDrugs(drugsToDisplay) {
@@ -69,12 +94,12 @@ class UI {
       const deleteButton = document.createElement("button");
       const editButton = document.createElement("button");
       
-      renderProductName.textContent = `Name: ${drug.productName}`;
-      renderManufacturer.textContent = `Manufacturer: ${drug.manufacturer}`;
-      renderProductId.textContent = `Product ID: ${drug.productId}`;
-      renderDate.textContent = `Date: ${drug.dateInput}`;
-      renderQuantity.textContent = `Quantity: ${drug.quantity}`;
-      renderID.textContent = `ID: ${drug.ID}`;
+      renderProductName.textContent = drug.productName;
+      renderManufacturer.textContent = drug.manufacturer;
+      renderProductId.textContent = drug.productId;
+      renderDate.textContent = drug.dateInput;
+      renderQuantity.textContent = drug.quantity;
+      renderID.textContent = drug.ID ;
       deleteButton.textContent = "Delete";
       editButton.textContent = "Edit";
       
@@ -89,6 +114,7 @@ class UI {
       drugsUl.appendChild(li);
 
       deleteButton.addEventListener("click", () => Drug.deleteDrug(drug.ID));
+     
      
     });
   }
@@ -120,4 +146,23 @@ showAllButton.addEventListener("click", () => {
   UI.renderDrugs(drugs);
 });
 
-UI.renderDrugs(drugs);
+
+
+
+//--------------------------------------------
+ 
+
+
+
+ 
+      
+  
+
+
+       
+
+
+
+
+
+
