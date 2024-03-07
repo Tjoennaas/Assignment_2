@@ -1,5 +1,6 @@
 
 
+
 body {
 
   padding: var(--spacing-medium);
@@ -32,82 +33,76 @@ body {
 }
  label { 
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-}
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
   input {  
  
-   height: var(--spacing-large);
-   padding: var(--spacing-medium);
-
- }
+        height: var(--spacing-large);
+        padding: var(--spacing-medium);
+    }
 
   .submit-button { 
 
-  padding-top: var(--spacing-medium);
-  padding-bottom:  var(--spacing-medium);
+        padding-top: var(--spacing-medium);
+        padding-bottom:  var(--spacing-medium);
 
    }
 
   .display-drugs  { 
    
-  padding-top: var(--spacing-large);
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-medium);
-  
- }
+        padding-top: var(--spacing-large);
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-medium);
+     }
 
   .search-section {
    
-  display: flex;
-  gap: var(--spacing-medium);
+        display: flex;
+        gap: var(--spacing-medium);
+
+ }
+ 
+
+
+ .drugs-header {
+
+        
+       padding: var(--spacing-small);
+       background-color: var(--color-secondary);
+       display: flex;
+       gap: var(--spacing-small);
 
  }
 
-  
 
- .drugs-header  span {
+span { 
 
-  
-  padding: var(--spacing-medium);
-  background-color: var(--color-secondary);
-  display: flex;
-  gap: 0.8rem;
-  align-self: center;
-
+       flex-basis:15%;
+       display: flex;
+       justify-content: center;
+       align-items: center; 
  }
 
 
-.edit-drug-modal{
-  background-color: var(--color-secondary);
-  padding: var(--spacing-medium);
-
-  display: none;
-
-  flex-direction: column;
-  gap: var(--spacing-medium);
-  z-index: 1;
-  left: 0;
-  position: absolute;
-  top: 2rem;
-  width: 100%; 
-  height: 100%; 
+.drugs-list li  {
+       padding: var(--spacing-small);
+       border: 1px solid var(--color-primary);
+       background-color: var(--color-secondary);
+       display: flex;
+       gap: 3rem;
+       align-self: center;
+ }
 
 
-}
 
-.edit-drug-form{
-  margin-top: var(--spacing-small);
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-small);
-
-}
-
+   .error-message {
+       color: red;
+       font-size: 0.8rem;
+  }
 
 
 @media screen and ( min-width: 500px ){
@@ -118,15 +113,21 @@ body {
     flex-direction: row;
     gap: var(--spacing-medium);
 
-  } 
+  }   
 
-  .drugs-header{
+   
+ .drugs-header {
+    
+  padding: var(--spacing-medium);
+  display: flex;
+  gap: 0.8rem;
 
-    display: flex;
-    flex-direction: row;
-    background-color: var(--color-secondary);
-  }
-  
-  }
+ }
+
+
+.drugs-list li {
  
-  
+ width:45rem;
+ 
+ }
+}
