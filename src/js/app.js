@@ -1,5 +1,6 @@
 
 
+
 const drugs = JSON.parse(localStorage.getItem("drugs")) || [];
 const saveData = (data) => { 
   localStorage.setItem("drugs", JSON.stringify(data));
@@ -10,6 +11,11 @@ const productName = document.querySelector(".product-name");
 const manufacturer = document.querySelector(".manufacturer");
 const dateInput = document.querySelector(".date-input");
 const quantity = document.querySelector(".quantity");
+
+const mikstur = document.querySelector(".mikstur");
+const tabelet = document.querySelector(".tabelet");
+const dosageFormValue = document.querySelector(".dosage"); 
+
 const submitButton = document.querySelector(".submit-button");
 const drugsHeader = document.querySelector(".drugs-header");
 const drugsUl = document.querySelector(".drugs-list");
@@ -87,6 +93,10 @@ class Drug {
     this.productName = productName;
     this.manufacturer = manufacturer;
     this.dateInput = dateInput;
+                     
+     this.dosageFormValue = dosageFormValue; 
+                       
+
     this.quantity = parseInt(quantity, 10); 
 
     this.productId = productName  + manufacturer; 
@@ -122,7 +132,21 @@ class Drug {
   }
 }
 
+class Mikstur extends Drug {
+  constructor(productName, manufacturer, dateInput, quantity) {
+    super(productName, manufacturer, dateInput, quantity);
+    this.dosageForm = 'Mikstur';
+  }
+}
 
+class Tabelet extends Drug {
+  constructor(productName, manufacturer, dateInput, quantity) {
+    super(productName, manufacturer, dateInput, quantity);
+    this.dosageForm = 'Tablet';
+  }
+}
+
+  
 
 
 class UI {
@@ -136,19 +160,22 @@ class UI {
       const renderDate = document.createElement("span");
       const renderID = document.createElement("span");
       const deleteButton = document.createElement("button");
+      const renderDosageForm = document.createElement("span");
     
       
       renderProductName.textContent = `${drug.productName}`;
       renderManufacturer.textContent = `${drug.manufacturer}`;
       renderDate.textContent = `${drug.dateInput}`;
       renderQuantity.textContent = `${drug.quantity}`;
+      renderDosageForm.textContent = `${drug.dosageForm}`;
       renderID.textContent =  `${drug.ID}`;
       deleteButton.textContent = "Delete";
     
       
       li.appendChild(renderProductName);
       li.appendChild(renderManufacturer);
-   
+      
+      li.appendChild(renderDosageForm);
       li.appendChild(renderDate);
 
       li.appendChild(renderQuantity);
@@ -157,15 +184,18 @@ class UI {
    
       drugsUl.appendChild(li);
 
+
+  
+       
       renderProductName.classList.add ("render-product-name");
       renderManufacturer.classList.add( "render-manufacturer");
       renderDate.classList.add("render-data");
       renderID.classList.add ("render-id");
       deleteButton.classList.add("delete-button");
+
+      deleteButton.classList.add("delete-button");
     
    
-
-
 
       deleteButton.addEventListener("click", () => Drug.deleteDrug(drug.ID));
     
@@ -177,38 +207,48 @@ class UI {
 //--------------------------------------------------------------
 
 
+
+  
+
 pharmaForm.addEventListener("submit", function(e) {
   e.preventDefault();
 
 
-  if (!validateDrugForm(productName.value, manufacturer.value, dateInput.value, quantity.value)) {
-      const newDrug = new Drug(productName.value, manufacturer.value, dateInput.value, quantity.value);
-     
-      Drug.addDrug(newDrug);
-      UI.renderDrugs(drugs);
-     
-      pharmaForm.reset();
+  const className = 'dosage';
+  const dosageFormValue = document.querySelector(`.${className}`).value;
+
+  let newDrug;
+  if (dosageFormValue === "mikstur") {
+    newDrug = new Mikstur(productName.value, manufacturer.value, dateInput.value, quantity.value);
+  } else if (dosageFormValue === "tablet") {
+    newDrug = new Tabelet(productName.value, manufacturer.value, dateInput.value, quantity.value);
   }
-});
+  
+  if (newDrug && !validateDrugForm(productName.value, manufacturer.value, dateInput.value, quantity.value)) {
+    Drug.addDrug(newDrug); 
+    UI.renderDrugs(drugs);
+    pharmaForm.reset(); 
+
+    }
+ });   
 
 
 
 
-
-searchButton.addEventListener("click", () => {
-  const search = searchInput.value.toLowerCase();
-  const filteredDrugs = drugs.filter(drug => 
-    drug.productName.toLowerCase().includes(search) ||
-    drug.manufacturer.toLowerCase().includes(search)
+ searchButton.addEventListener("click", () => {
+     const search = searchInput.value.toLowerCase();
+     const filteredDrugs = drugs.filter(drug => 
+     drug.productName.toLowerCase().includes(search) ||
+     drug.manufacturer.toLowerCase().includes(search)
   );
-  UI.renderDrugs(filteredDrugs);     
-});
 
-showAllButton.addEventListener("click", () => {
+   UI.renderDrugs(filteredDrugs);
+
+  });
+
+   showAllButton.addEventListener("click", () => {
+       UI.renderDrugs(drugs);
+   }
+ );
+
   UI.renderDrugs(drugs);
-});
-
-
-UI.renderDrugs(drugs);
-
-
