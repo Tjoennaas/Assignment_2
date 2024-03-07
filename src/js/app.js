@@ -1,6 +1,5 @@
 
 
-
 const drugs = JSON.parse(localStorage.getItem("drugs")) || [];
 const saveData = (data) => { 
   localStorage.setItem("drugs", JSON.stringify(data));
@@ -94,6 +93,9 @@ class Drug {
     this.ID = Date.now().toString();
   }
 
+
+  
+
   static addDrug(newDrug) {
     const existingDrugIndex = drugs.findIndex(drug => 
       drug.productName === newDrug.productName && 
@@ -134,7 +136,7 @@ class UI {
       const renderDate = document.createElement("span");
       const renderID = document.createElement("span");
       const deleteButton = document.createElement("button");
-      const editButton = document.createElement("button");
+    
       
       renderProductName.textContent = `${drug.productName}`;
       renderManufacturer.textContent = `${drug.manufacturer}`;
@@ -142,16 +144,17 @@ class UI {
       renderQuantity.textContent = `${drug.quantity}`;
       renderID.textContent =  `${drug.ID}`;
       deleteButton.textContent = "Delete";
-      editButton.textContent = "Edit";
+    
       
       li.appendChild(renderProductName);
       li.appendChild(renderManufacturer);
    
-      li.appendChild(renderQuantity);
       li.appendChild(renderDate);
+
+      li.appendChild(renderQuantity);
       li.appendChild(renderID);
       li.appendChild(deleteButton);
-      li.appendChild(editButton);
+   
       drugsUl.appendChild(li);
 
       renderProductName.classList.add ("render-product-name");
@@ -159,10 +162,13 @@ class UI {
       renderDate.classList.add("render-data");
       renderID.classList.add ("render-id");
       deleteButton.classList.add("delete-button");
-      editButton.classList.add("edit-button");
+    
+   
+
+
 
       deleteButton.addEventListener("click", () => Drug.deleteDrug(drug.ID));
-      // editButton.addEventListener("click", () => Drug.editDrug(drug.ID));
+    
     });
   }
 }
@@ -204,8 +210,5 @@ showAllButton.addEventListener("click", () => {
 
 
 UI.renderDrugs(drugs);
-
-
-
 
 
