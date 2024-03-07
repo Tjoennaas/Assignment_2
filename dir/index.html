@@ -23,26 +23,22 @@
     
     <form  class = "form-pharmaForm"> 
 
-     <label for="product-name">Product name:</label>
+     <label for="product-name">Product name</label>
      <input type="text" name="product-name" class="product-name"/>
-     <label for= "product-name" class="product-name-error errors"></label> 
+     <label for= "product-name" class="name-error errors"></label> 
 
-     <label for="product-id">Product ID:</label>
-     <input type="text" name="product-id" class="product-id"/>
-     <label for= "product-id"class=" product-id-error errors"></label> 
-
-     <label for="manufacturer">Manufacturer:</label>
+     <label for="manufacturer">Manufacturer</label>
      <input type="text" name="manufacturer" class="manufacturer"/>
-     <label for= "manufacturer"class="manufacturer-error errors"></label> 
+     <label for= "manufacturer" class="manufacturer-error errors"></label> 
      
      
-     <label for="date-input">Task date:</label>
+     <label for="date-input">Expiration date</label>
      <input
        type="date"
        name="date-input"
        pattern="\d{2}/\d{2}/\d{4}"h
-       class="date-input"
-     />
+       class="date-input"/>
+
      <label for="date-input" class="date-error errors"></label> 
 
      <label for = "quantity">Quantity</label>
@@ -50,11 +46,21 @@
      <label for = "quantity"class="quantity-error errors"></label> 
 
 
+      <label for="dosage">Dosage</label>
+      <select name="dosage" class="dosage">
+         <option value="mikstur">Mikstur</option>
+         <option value="tablet">Tablet</option> 
+      </select>
+
+
+      <label for = "dosage"class="dosage-error errors"></label> 
+
      <button class = "submit-button"> Submit </button>
    
     </form>
 
    </section> 
+
 
 
 <!-------------------------------------------------------------------->
@@ -71,46 +77,24 @@
 
     <header class = "drugs-header">
     <span>Product name:</span>
-    <span>Product ID:</span>
     <span>Manufacturer:</span>
-    <span> Expiration date</span>
-    <span>Quantity</span>
+    <span>Dosage:</span>
+    <span> Expiration date:</span>
+    <span>Quantity:</span>
+    <span>Product ID:</span>
+    <span></span>
     </header>
 
+    
      <ul class = "drugs-list">  
         
      </ul>
 
-     <div class="edit-drug-modal">
-    <form class="edit-drug-form">
-      
-            <input type="text" class="edit-product-name" placeholder="product-name">
-            <input type="text" class="edit-product-id" placeholder="id">
-            <input type="text" class="edit-manufacturer" placeholder="manufacturer">
-            <input type="text" class="edit-date-input" placeholder="date-input">
-            <input type="text" class="edit-quantity" placeholder="quantity">
-           
-            <label for="task-description-input">Task description:</label>
-            <textarea
-            name="task-description-input"
-            class="task-description-input"
-            cols="30"
-            rows="5"
-            placeholder="Enter task description (Max 100 characters)"
-          ></textarea>
-             
-          <ul class=" render-textarea">  
-
-          </ul>
-
-            <button type="submit-shange">Save Changes</button>
-            <button type="button-close">x</button>
-        </form>
-    </div>
-  
 
 </section>
-    
+   
+
+
 </main>
 
 
