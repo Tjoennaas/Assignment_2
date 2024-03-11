@@ -1,8 +1,8 @@
 
 
 
-const drugs = JSON.parse(localStorage.getItem("drugs")) || [];  //Retrieves a string from the browser's local storage with the key "drugs".
-const saveData = (data) => {                                   //
+const drugs = JSON.parse(localStorage.getItem("drugs")) || [];  
+const saveData = (data) => {                                     
   localStorage.setItem("drugs", JSON.stringify(data));
 };
 
