@@ -125,9 +125,9 @@ span {
  }
 
 
-.drugs-list li {
+.drugs-list li , .drugs-header{
  
- width:45rem;
+ width:55rem;
  
  }
 }
