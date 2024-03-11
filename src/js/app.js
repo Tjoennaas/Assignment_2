@@ -1,8 +1,8 @@
 
 
 
-const drugs = JSON.parse(localStorage.getItem("drugs")) || [];
-const saveData = (data) => { 
+const drugs = JSON.parse(localStorage.getItem("drugs")) || [];  //Retrieves a string from the browser's local storage with the key "drugs".
+const saveData = (data) => {                                   //
   localStorage.setItem("drugs", JSON.stringify(data));
 };
 
@@ -11,7 +11,13 @@ const productName = document.querySelector(".product-name");
 const manufacturer = document.querySelector(".manufacturer");
 const dateInput = document.querySelector(".date-input");
 const quantity = document.querySelector(".quantity");
+
+const mikstur = document.querySelector(".mikstur");
+const pill = document.querySelector(".pill");
 const dosageFormValue = document.querySelector(".dosage"); 
+
+
+
 const submitButton = document.querySelector(".submit-button");
 const drugsHeader = document.querySelector(".drugs-header");
 const drugsUl = document.querySelector(".drugs-list");
@@ -28,18 +34,17 @@ const dateError = document.querySelector(".date-error");
 const quantityError = document.querySelector(".quantity-error");
 
 
-const validateDrugForm = (productNameInput, manufacturerInput, dateInput, quantityInput) => {
+const validateDrugForm = (productNameInput, manufacturerInput, dateInput, quantityInput ) => {
   let errors = {
       errorStatus: false,
       nameError: "",
       manufacturerError: "",
       dateError: "",
       quantityError: "",
+    
   };
      
-
-
-  if (!productNameInput.trim()) {   //
+  if (!productNameInput.trim()) {
       errors.errorStatus = true;
       errors.nameError = "Product name is required ⚠️";
       nameError.textContent = errors.nameError;
@@ -85,19 +90,15 @@ const validateDrugForm = (productNameInput, manufacturerInput, dateInput, quanti
 
 
 class Drug {
-  constructor(productName, manufacturer, dateInput, quantity ) {
+  constructor(productName, manufacturer, dateInput, quantity) {
     this.productName = productName;
     this.manufacturer = manufacturer;
-    this.dateInput = dateInput; 
-    this.mikstur = mikstur;               
+    this.dateInput = dateInput;
+    this.dosageFormValue = dosageFormValue;                    
     this.quantity = parseInt(quantity, 10); 
-  
     this.productId = productName  + manufacturer; 
     this.ID = Date.now().toString();
   }
-
-
-  
 
   static addDrug(newDrug) {
     const existingDrugIndex = drugs.findIndex(drug => 
@@ -109,39 +110,33 @@ class Drug {
       drugs[existingDrugIndex].quantity += newDrug.quantity;
     } else {
       drugs.push(newDrug);
-   }
+    }
 
      saveData(drugs);
-
      UI.renderDrugs(drugs);
   }
 
-
-
   static deleteDrug(id) {
-      const index = drugs.findIndex(drug => drug.ID === id);
-      if (index !== -1) {
-      drugs.splice(index, 1);
-     
+    const index = drugs.findIndex(drug => drug.ID === id);
+    if (index !== -1) {
+      drugs.splice(index, 1); // 
       saveData(drugs);
-     
       UI.renderDrugs(drugs);
     }      
   }
 }
 
-
- class Mikstur extends Drug {
-    constructor(productName, manufacturer, dateInput, quantity) {
+class Mikstur extends Drug {
+  constructor(productName, manufacturer, dateInput, quantity) {
     super(productName, manufacturer, dateInput, quantity);
-    this.dosageForm ="mikstur";   //
+    this.dosageForm = 'Mikstur';
   }
-} 
+}
 
-class Tabelet extends Drug {
-    constructor(productName, manufacturer, dateInput, quantity) {
+class Pill extends Drug {
+  constructor(productName, manufacturer, dateInput, quantity) {
     super(productName, manufacturer, dateInput, quantity);
-    this.dosageForm = "pill";   //
+    this.dosageForm = 'Pill';
   }
 }
 
@@ -151,7 +146,7 @@ class Tabelet extends Drug {
 class UI {
   static renderDrugs(drugsToDisplay) {
     drugsUl.innerText = "";
-     drugsToDisplay.forEach((drug) => {
+    drugsToDisplay.forEach((drug) => {
       const li = document.createElement("li");
       const renderProductName = document.createElement("span");
       const renderManufacturer = document.createElement("span");
@@ -207,7 +202,7 @@ class UI {
 
 
 
-  
+
 
 pharmaForm.addEventListener("submit", function(e) {
   e.preventDefault();
@@ -218,9 +213,9 @@ pharmaForm.addEventListener("submit", function(e) {
 
   let newDrug;
   if (dosageFormValue === "mikstur") {
-    newDrug = new Mikstur(productName.value, manufacturer.value, dateInput.value, quantity.value);   //
-  } else if (dosageFormValue === "tablet") {
-    newDrug = new Tabelet(productName.value, manufacturer.value, dateInput.value, quantity.value);
+    newDrug = new Mikstur(productName.value, manufacturer.value, dateInput.value, quantity.value);
+  } else if (dosageFormValue === "pill") {
+    newDrug = new Pill (productName.value, manufacturer.value, dateInput.value, quantity.value);
   }
   
   if (newDrug && !validateDrugForm(productName.value, manufacturer.value, dateInput.value, quantity.value)) {
@@ -232,13 +227,11 @@ pharmaForm.addEventListener("submit", function(e) {
  });   
 
 
-
-
  searchButton.addEventListener("click", () => {
-     const search = searchInput.value.toLowerCase();
-     const filteredDrugs = drugs.filter(drug => 
-     drug.productName.toLowerCase().includes(search) ||
-     drug.manufacturer.toLowerCase().includes(search)
+        const search = searchInput.value.toLowerCase();
+        const filteredDrugs = drugs.filter(drug => 
+        drug.productName.toLowerCase().includes(search) ||
+        drug.manufacturer.toLowerCase().includes(search)
   );
 
    UI.renderDrugs(filteredDrugs);
@@ -246,9 +239,8 @@ pharmaForm.addEventListener("submit", function(e) {
   });
 
    showAllButton.addEventListener("click", () => {
-
        UI.renderDrugs(drugs);
    }
  );
 
-      UI.renderDrugs(drugs);
+  UI.renderDrugs(drugs);
