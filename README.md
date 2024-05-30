@@ -6,7 +6,7 @@ The inventory is made using HTML, CSS, JavaScript, and the main goal was to prac
 
 Status: Working and stable. Form working according to criterias in the first section of this text.
 Browser support: No known browser issues.
-The webpage has responsive design suited for all formats.
+The webpage has responsive design suited for bigger screens.
 
 Referances: The resources is used due to work with JavaScript. Mostly things we learned in-and from the documentation of- lectures at school.
             -Professional JavaScript for Web Developers av Matt Frisbie
